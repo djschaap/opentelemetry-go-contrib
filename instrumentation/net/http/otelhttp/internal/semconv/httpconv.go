@@ -280,7 +280,7 @@ func (n CurrentHTTPServer) MetricAttributes(server string, req *http.Request, st
 
 	attributes := slices.Grow(additionalAttributes, num)
 	attributes = append(attributes,
-		semconvNew.HTTPRequestMethodKey.String(standardizeHTTPMethod(req.Method)),
+		standardizeHTTPMethod(req.Method),
 		n.scheme(req.TLS != nil),
 		semconvNew.ServerAddress(host))
 
@@ -482,7 +482,7 @@ func (n CurrentHTTPClient) MetricAttributes(req *http.Request, statusCode int, a
 
 	attributes := slices.Grow(additionalAttributes, num)
 	attributes = append(attributes,
-		semconvNew.HTTPRequestMethodKey.String(standardizeHTTPMethod(req.Method)),
+		standardizeHTTPMethod(req.Method),
 		semconvNew.ServerAddress(requestHost),
 		n.scheme(req),
 	)

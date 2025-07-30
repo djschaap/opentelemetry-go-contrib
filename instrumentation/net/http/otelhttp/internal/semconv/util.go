@@ -122,12 +122,16 @@ func handleErr(err error) {
 	}
 }
 
-func standardizeHTTPMethod(method string) string {
+func standardizeHTTPMethod(method string) attribute.KeyValue {
 	method = strings.ToUpper(method)
 	switch method {
 	case http.MethodConnect, http.MethodDelete, http.MethodGet, http.MethodHead, http.MethodOptions, http.MethodPatch, http.MethodPost, http.MethodPut, http.MethodTrace:
+		return semconvNew.HTTPRequestMethodKey.String(method)
 	default:
-		method = "_OTHER"
+		if attr, ok := additionalKnownMethods[strings.ToUpper(method)]; ok {
+			return attr
+		} else {
+			return semconvNew.HTTPRequestMethodKey.String("_OTHER")
+		}
 	}
-	return method
 }

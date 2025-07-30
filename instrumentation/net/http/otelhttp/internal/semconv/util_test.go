@@ -10,6 +10,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"go.opentelemetry.io/otel/attribute"
+	semconvNew "go.opentelemetry.io/otel/semconv/v1.34.0"
 )
 
 func TestSplitHostPort(t *testing.T) {
@@ -46,28 +48,28 @@ func TestSplitHostPort(t *testing.T) {
 func TestStandardizeHTTPMethod(t *testing.T) {
 	tests := []struct {
 		method string
-		want   string
+		want   attribute.KeyValue
 	}{
-		{"GET", "GET"},
-		{"get", "GET"},
-		{"POST", "POST"},
-		{"post", "POST"},
-		{"PUT", "PUT"},
-		{"put", "PUT"},
-		{"DELETE", "DELETE"},
-		{"delete", "DELETE"},
-		{"HEAD", "HEAD"},
-		{"head", "HEAD"},
-		{"OPTIONS", "OPTIONS"},
-		{"options", "OPTIONS"},
-		{"CONNECT", "CONNECT"},
-		{"connect", "CONNECT"},
-		{"TRACE", "TRACE"},
-		{"trace", "TRACE"},
-		{"PATCH", "PATCH"},
-		{"patch", "PATCH"},
-		{"unknown", "_OTHER"},
-		{"", "_OTHER"},
+		{"GET", semconvNew.HTTPRequestMethodKey.String("GET")},
+		{"get", semconvNew.HTTPRequestMethodKey.String("GET")},
+		{"POST", semconvNew.HTTPRequestMethodKey.String("POST")},
+		{"post", semconvNew.HTTPRequestMethodKey.String("POST")},
+		{"PUT", semconvNew.HTTPRequestMethodKey.String("PUT")},
+		{"put", semconvNew.HTTPRequestMethodKey.String("PUT")},
+		{"DELETE", semconvNew.HTTPRequestMethodKey.String("DELETE")},
+		{"delete", semconvNew.HTTPRequestMethodKey.String("DELETE")},
+		{"HEAD", semconvNew.HTTPRequestMethodKey.String("HEAD")},
+		{"head", semconvNew.HTTPRequestMethodKey.String("HEAD")},
+		{"OPTIONS", semconvNew.HTTPRequestMethodKey.String("OPTIONS")},
+		{"options", semconvNew.HTTPRequestMethodKey.String("OPTIONS")},
+		{"CONNECT", semconvNew.HTTPRequestMethodKey.String("CONNECT")},
+		{"connect", semconvNew.HTTPRequestMethodKey.String("CONNECT")},
+		{"TRACE", semconvNew.HTTPRequestMethodKey.String("TRACE")},
+		{"trace", semconvNew.HTTPRequestMethodKey.String("TRACE")},
+		{"PATCH", semconvNew.HTTPRequestMethodKey.String("PATCH")},
+		{"patch", semconvNew.HTTPRequestMethodKey.String("PATCH")},
+		{"unknown", semconvNew.HTTPRequestMethodKey.String("_OTHER")},
+		{"", semconvNew.HTTPRequestMethodKey.String("_OTHER")},
 	}
 	for _, test := range tests {
 		assert.Equal(t, test.want, standardizeHTTPMethod(test.method))
