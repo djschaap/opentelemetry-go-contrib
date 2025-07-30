@@ -110,10 +110,12 @@ var methodLookup = map[string]attribute.KeyValue{
 	http.MethodTrace:   semconvNew.HTTPRequestMethodTrace,
 }
 
-// N.B. OTEL_INSTRUMENTATION_HTTP_KNOWN_METHODS is expected to also include default methods;
-// that is not necessarily enforced here.
-var additionalKnownMethods = map[string]attribute.KeyValue{
-	"PROPFIND": semconvNew.HTTPRequestMethodKey.String("PROPFIND"),
+var additionalKnownMethods = map[string]attribute.KeyValue{}
+
+// AddKnownHTTPMethod registers a custom/additional known HTTP method for
+// use with metrics and traces.
+func AddKnownHTTPMethod(method string) {
+	additionalKnownMethods[method] = semconvNew.HTTPRequestMethodKey.String(method)
 }
 
 func handleErr(err error) {
