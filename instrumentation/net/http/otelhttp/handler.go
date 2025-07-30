@@ -222,6 +222,12 @@ func (h *middleware) metricAttributesFromRequest(r *http.Request) []attribute.Ke
 	return attributeForRequest
 }
 
+// AddKnownHTTPMethod registers a custom/additional known HTTP method for
+// use with metrics and traces.
+func AddKnownHTTPMethod(method string) {
+	semconv.AddKnownHTTPMethod(method)
+}
+
 // WithRouteTag annotates spans and metrics with the provided route name
 // with HTTP route attribute.
 func WithRouteTag(route string, h http.Handler) http.Handler {
