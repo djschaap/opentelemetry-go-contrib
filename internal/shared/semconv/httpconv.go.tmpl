@@ -191,6 +191,10 @@ func (n CurrentHTTPServer) method(method string) (attribute.KeyValue, attribute.
 	if attr, ok := methodLookup[strings.ToUpper(method)]; ok {
 		return attr, orig
 	}
+
+	if attr, ok := additionalKnownMethods[strings.ToUpper(method)]; ok {
+		return attr, orig
+	}
 	return semconvNew.HTTPRequestMethodGet, orig
 }
 
@@ -435,6 +439,10 @@ func (n CurrentHTTPClient) method(method string) (attribute.KeyValue, attribute.
 
 	orig := semconvNew.HTTPRequestMethodOriginal(method)
 	if attr, ok := methodLookup[strings.ToUpper(method)]; ok {
+		return attr, orig
+	}
+
+	if attr, ok := additionalKnownMethods[strings.ToUpper(method)]; ok {
 		return attr, orig
 	}
 	return semconvNew.HTTPRequestMethodGet, orig

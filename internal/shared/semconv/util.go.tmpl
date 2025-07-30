@@ -110,6 +110,12 @@ var methodLookup = map[string]attribute.KeyValue{
 	http.MethodTrace:   semconvNew.HTTPRequestMethodTrace,
 }
 
+// N.B. OTEL_INSTRUMENTATION_HTTP_KNOWN_METHODS is expected to also include default methods;
+// that is not necessarily enforced here.
+var additionalKnownMethods = map[string]attribute.KeyValue{
+	"PROPFIND": semconvNew.HTTPRequestMethodKey.String("PROPFIND"),
+}
+
 func handleErr(err error) {
 	if err != nil {
 		otel.Handle(err)
